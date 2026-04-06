@@ -1,4 +1,5 @@
-export const nfPage = `
+const template = document.createElement('template');
+template.innerHTML = `
   <div class="main-content not-found-page">
     <section>
       <h1>404</h1>
@@ -7,3 +8,4 @@ export const nfPage = `
     </section>
   </div>
 `;
+export const pageTemplate = template;

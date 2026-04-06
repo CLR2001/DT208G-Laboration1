@@ -4,12 +4,15 @@
  * @description Manages the Single Page Application (SPA) logic.
  */
 
+import { coursesInit } from "./course-handler";
+import { indexInit } from "./course-handler";
+
 interface PageModule {
-  [key: string]: string;
+  readonly pageTemplate: HTMLTemplateElement;
 }
 
 interface Pages {
-  [key: string]: string;
+  [key: string]: HTMLTemplateElement;
 };
 
 // 1. Imports all page files matching the pattern
@@ -17,6 +20,11 @@ const pageFiles = import.meta.glob<PageModule>("./pages/*-page.ts", { eager: tru
 if (Object.keys(pageFiles).length === 0) {
   console.error('No pages found!');
 }
+
+const pageInits: Record<string, () => void> = {
+  'index': indexInit,
+  'courses': coursesInit
+};
 
 /**
  * @function initPageHandler
@@ -32,12 +40,12 @@ export function initPageHandler(): void {
   for (const path in pageFiles) {
     const fileName = path.split('/').pop() || '';
     const pageKey = fileName.replace('-page.ts', '');
-    const pageKeyValue = `${pageKey}Page`;
 
     const pageObject = pageFiles[path];
+    console.log(pageObject);
     
-    if (pageObject && pageObject[pageKeyValue]) {
-      pages[pageKey] = pageObject[pageKeyValue];
+    if (pageObject && pageObject.pageTemplate) {
+      pages[pageKey] = pageObject.pageTemplate;
     }  
   }
 
@@ -72,15 +80,24 @@ export function initPageHandler(): void {
  * @function renderPageContent
  * @description Renders the HTML content of the selected page and updates the browser URL.
  * @param app - Main container for SPA.
- * @param pages - Object with page content as strings.
+ * @param pages - Object with page content as templates.
  * @param activePage - The key of the page to be displayed.
  * @param updateHistory - Whether to push a new state to the browser history.
  */
 function renderPageContent (app: HTMLElement, pages: Pages, activePage: string, updateHistory = true) {
-  console.log(activePage);
-  
-  app.innerHTML = pages[activePage] || pages['nf'];
-  
+  app.innerHTML = '';
+  const template = pages[activePage];
+  if (template) {
+    app.appendChild(template.content.cloneNode(true));
+
+    if (pageInits[activePage]) {
+      pageInits[activePage]();
+    }
+  } else {
+    app.appendChild(pages['nf'].content.cloneNode(true));
+  }
+
+
   window.scrollTo(0, 0);
 
   if (updateHistory) {
