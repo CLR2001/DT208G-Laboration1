@@ -12,6 +12,7 @@ header {
     gap: 2rem;
     a {
       padding: 0.5rem 0;
+      color: $text-primary;
       font-size: 1.1em;
     }
   }
@@ -32,7 +33,7 @@ header {
 @media (min-width: 800px) {
   .header-content {
     ul {
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(2, 1fr);
     }
   }  
 }
