@@ -2,13 +2,11 @@
 
 footer {
   padding: 1rem $standard-padding;
+  color: $text-primary;
   background-color: $color-secondary;
-  a {
-    text-decoration: underline;
-  }
   .icon {
     width: 1.5em;
-    stroke: $text-muted;
+    stroke: $text-primary;
   }
 }
 

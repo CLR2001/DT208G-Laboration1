@@ -1,6 +1,14 @@
 @use '../core/' as *;
 
+.index-main {
+  h1, h2 {
+    margin-bottom: 1rem;
+  }
+}
+
 .course-cards {
+  display: grid;
+  gap: 2rem;
   counter-reset: card-counter;
 }
 

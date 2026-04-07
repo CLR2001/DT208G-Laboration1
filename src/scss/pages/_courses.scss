@@ -60,14 +60,13 @@
   color: red;
 }
 
-.saved-alert {
-  list-style-type: disc;
+.green {
   color: rgb(63, 233, 63);
 }
 
 :root[data-theme="light"] {
   .courses-main form {
-    input {
+    input, select {
       border-color: $text-primary;
     }
   }

@@ -85,7 +85,7 @@ export function initPageHandler(): void {
  * @param updateHistory - Whether to push a new state to the browser history.
  */
 function renderPageContent (app: HTMLElement, pages: Pages, activePage: string, updateHistory = true) {
-  app.innerHTML = '';
+  app.replaceChildren();
   const template = pages[activePage];
   if (template) {
     app.appendChild(template.content.cloneNode(true));
